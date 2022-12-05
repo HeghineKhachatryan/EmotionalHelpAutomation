@@ -39,7 +39,8 @@ public final class ResponseUtils {
                 .getString(path);
     }
 
-    public static void validateResponseAgainstJsonSchema(String filePath) {
+    public static void validateResponseAgainstJSONSchema(String filePath) {
+        logger.info("Version of JSON Schema Validator is 'DRAFTV4', path of the schema is {}", filePath);
         JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory
                 .newBuilder()
                 .setValidationConfiguration(
@@ -49,13 +50,10 @@ public final class ResponseUtils {
                                 .freeze()
                 )
                 .freeze();
-
         getResponse()
                 .assertThat()
-                .body(
-                        JsonSchemaValidator
-                                .matchesJsonSchemaInClasspath(filePath)
-                                .using(jsonSchemaFactory)
-                );
+                .body(JsonSchemaValidator
+                        .matchesJsonSchemaInClasspath(filePath)
+                        .using(jsonSchemaFactory));
     }
 }

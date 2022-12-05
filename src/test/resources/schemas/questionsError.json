@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "string"
+    },
+    "timeStamp": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "status",
+    "message",
+    "timeStamp"
+  ]
+}
