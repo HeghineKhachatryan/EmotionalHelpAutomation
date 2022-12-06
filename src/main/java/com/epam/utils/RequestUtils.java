@@ -31,10 +31,31 @@ public final class RequestUtils {
                 .then();
     }
 
+    public static ValidatableResponse get(String endpoint, Object body) {
+        logger.info("Get response by requesting all {}", endpoint);
+        return response = RestAssured
+                .given()
+                .spec(getRequestSpecification(body))
+                .when()
+                .get(endpoint)
+                .then();
+    }
+
     public static ValidatableResponse post(String endpoint, Object body) {
         logger.info("Create new {} with the following body -> {}", endpoint, body);
         return response = RestAssured
                 .given()
+                .spec(getRequestSpecification(body))
+                .when()
+                .post(endpoint)
+                .then();
+    }
+
+    public static ValidatableResponse post(String endpoint, Object body, String token) {
+        logger.info("Create new {} with the following body -> {} and token {}", endpoint, body, token);
+        return response = RestAssured
+                .given()
+                .headers("Authorization", token)
                 .spec(getRequestSpecification(body))
                 .when()
                 .post(endpoint)

@@ -1,6 +1,8 @@
 package com.epam.steps;
 
+import com.epam.providers.bodyProviders.BodyProvider;
 import com.epam.providers.dataProviders.ConfigPropertiesProviders;
+import com.epam.providers.dataProviders.UserDataProvider;
 import com.epam.utils.RequestUtils;
 import com.epam.utils.ResponseUtils;
 import io.cucumber.java.en.Given;
@@ -20,7 +22,7 @@ public class CommonSteps {
         RestAssured.baseURI = propertyProvider.getBASE_URI();
     }
 
-    @When("Request to get by endpoint {}")
+    @When("Request to GET by endpoint {}")
     public void getAllQuestionnaires(String endpoint) {
         String questionnaires = RequestUtils.get(endpoint).extract().asPrettyString();
         logger.info("Request to get by endpoint {}", questionnaires);
