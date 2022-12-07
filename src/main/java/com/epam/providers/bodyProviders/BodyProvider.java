@@ -1,15 +1,14 @@
 package com.epam.providers.bodyProviders;
 
 import com.epam.providers.dataProviders.UserDataProvider;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class BodyProvider {
     private final static Logger logger = LoggerFactory.getLogger(BodyProvider.class);
-    private static final Map<String, Object> bodyParameters = new HashMap<>();
 
     public static String getBody(String ftlFileName, Map<String, Object> params) {
         TemplateManager templateManager = new TemplateManager();
@@ -17,25 +16,35 @@ public class BodyProvider {
         return templateManager.processTemplate(ftlFileName, params);
     }
 
-    public static Map<String, Object> createBodyForNewUser() {
-        bodyParameters.put("name", UserDataProvider.generateName());
-        bodyParameters.put("email", UserDataProvider.generateEmail());
-        bodyParameters.put("password", UserDataProvider.generateStrongPassword());
-        return bodyParameters;
+    public static String createBodyForNewUser() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", UserDataProvider.generateName());
+        jsonObject.put("email", UserDataProvider.generateEmail());
+        jsonObject.put("password", UserDataProvider.generateStrongPassword());
+        return jsonObject.toJSONString();
     }
 
-    public static Map<String, Object> createInvalidUserBody(String name, String email, String password) {
-        bodyParameters.put("name", name);
-        bodyParameters.put("email", email);
-        bodyParameters.put("password", password);
-        return bodyParameters;
+    public static String createInvalidUserBody(String name, String email, String password) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("email", email);
+        jsonObject.put("password", password);
+        return jsonObject.toJSONString();
     }
 
-    public static Map<String, Object> createBodyForResettingPassword(String newPassword) {
-        bodyParameters.put("currentPassword", UserDataProvider.getExistedPassword());
-        bodyParameters.put("newPassword", newPassword);
-        bodyParameters.put("conformNewPassword", newPassword);
-        return bodyParameters;
+    public static String createBodyForResettingPassword(String newPassword) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("currentPassword", UserDataProvider.getExistedPassword());
+        jsonObject.put("newPassword",newPassword);
+        jsonObject.put("conformNewPassword", newPassword);
+        return jsonObject.toJSONString();
+    }
+
+    public static String createBodyForQuestionnaires() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", UserDataProvider.generateName());
+        jsonObject.put("description", "description: " + UserDataProvider.generateName());
+        return jsonObject.toJSONString();
     }
 
 }

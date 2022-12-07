@@ -6,7 +6,8 @@ public enum Endpoints {
     LOGIN("authentication/login"),
     RESET_PASSWORD("authentication/reset-password"),
     RESET_FORGOTTEN_PASSWORD("authentication/reset-forgotten-password"),
-    SEND_EMAIL("authentication/send-mail");
+    SEND_EMAIL("authentication/send-mail"),
+    QUESTIONNAIRES("questionnaires");
 
     private final String text;
 

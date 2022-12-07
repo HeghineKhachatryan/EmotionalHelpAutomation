@@ -20,18 +20,6 @@ public class AuthSteps {
     private final Logger logger = LoggerFactory.getLogger(CommonSteps.class);
     private Map<String, Object> bodyParameters = new HashMap<>();
 
-    @When("Request to POST {} user with {}, {} and {}")
-    public void requestToPOSTByEndpoint(String text, String name, String email, String password) {
-        if (text.equals("a new")) {
-            bodyParameters = BodyProvider.createBodyForNewUser();
-        } else if (text.equals("invalid")) {
-            bodyParameters = BodyProvider.createInvalidUserBody(name, email, password);
-        }
-        String body = BodyProvider.getBody("signup", bodyParameters);
-        RequestUtils.post(Endpoints.SIGN_UP.getEndpoint(), body);
-        logger.info("Make a post request with {} endpoint and {} body", Endpoints.SIGN_UP.getEndpoint(), body);
-    }
-
     @And("Validate error message contains {}")
     public void validateErrorMessageContains(String text) {
         String message = ResponseUtils.getStringFromResponse("message");
@@ -64,17 +52,6 @@ public class AuthSteps {
         bodyParameters.put("username", username);
         bodyParameters.put("password", password);
         RequestUtils.get(Endpoints.LOGIN.getEndpoint(), BodyProvider.getBody("login", bodyParameters));
-    }
-
-    @And("Request to reset password by provided token")
-    public void requestToResetPasswordByProvidedToken() {
-        logger.info("Request to reset password by provided token and body");
-        String newPassword = UserDataProvider.generateStrongPassword();
-        bodyParameters = BodyProvider.createBodyForResettingPassword(newPassword);
-        PropertiesWriter.writeInPropertyFile("src/main/resources/userPassword.properties",
-                "existedUserPassword", newPassword);
-        RequestUtils.post(Endpoints.RESET_PASSWORD.getEndpoint(),
-                BodyProvider.getBody("resetPassword", bodyParameters), SharedTestData.getJWTToken());
     }
 
     @And("Validate success message for resetting password")
