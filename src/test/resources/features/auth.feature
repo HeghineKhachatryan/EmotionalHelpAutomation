@@ -50,3 +50,11 @@ Feature: Authorization feature will cover login/sign up/reset password functiona
       When Request to POST body parameters for resetPassword by endpoint RESET_PASSWORD
       Then Validate status code is 200
       And Validate success message for resetting password
+
+      Scenario: Reset forgotten password by receiving message to mail
+        When Login with existed email and password
+        When Request to POST by query params: email TestAutomationArmenia@gmail.com using endpoint SEND_MAIL
+        Then Validate status code is 200
+        And Get code from email message
+        When Request to POST body parameters for resetForgottenPassword by endpoint RESET_FORGOTTEN_PASSWORD
+        Then Validate status code is 200

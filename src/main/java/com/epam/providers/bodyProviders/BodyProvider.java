@@ -1,5 +1,6 @@
 package com.epam.providers.bodyProviders;
 
+import com.epam.providers.dataProviders.SharedTestData;
 import com.epam.providers.dataProviders.UserDataProvider;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -37,6 +38,14 @@ public class BodyProvider {
         jsonObject.put("currentPassword", UserDataProvider.getExistedPassword());
         jsonObject.put("newPassword",newPassword);
         jsonObject.put("conformNewPassword", newPassword);
+        return jsonObject.toJSONString();
+    }
+
+    public static String createBodyForResettingForgottenPassword(String newPassword) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", SharedTestData.getMessageText());
+        jsonObject.put("password",newPassword);
+        jsonObject.put("confirmPassword", newPassword);
         return jsonObject.toJSONString();
     }
 

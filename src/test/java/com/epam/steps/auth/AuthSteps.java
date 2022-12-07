@@ -1,6 +1,7 @@
 package com.epam.steps.auth;
 
 import com.epam.helpers.PropertiesWriter;
+import com.epam.mail.MailMessageProvider;
 import com.epam.providers.bodyProviders.BodyProvider;
 import com.epam.providers.dataProviders.*;
 import com.epam.steps.CommonSteps;
@@ -60,5 +61,22 @@ public class AuthSteps {
                 MessagesProviders.getResetPasswordSuccessMsg());
         Assertions.assertThat(ResponseUtils.getStringFromResponse("message"))
                 .isEqualTo(MessagesProviders.getResetPasswordSuccessMsg());
+    }
+
+    @When("Request to POST by query params:{} {} using endpoint {}")
+    public void requestToPOSTByQueryParamsUsingEndpoint(String queryKey, String queryValue, String endpoint) {
+       logger.info("Request to POST by query params:{} {} using endpoint {}", queryKey, queryValue, endpoint);
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("key", queryKey);
+        queryParams.put("value", queryValue);
+        RequestUtils.post(Endpoints.valueOf(endpoint).getEndpoint(), queryParams);
+        System.out.println(ResponseUtils.getResponse().extract().asPrettyString());
+    }
+
+    @And("Get code from email message")
+    public void getCodeFromEmailMessage() throws InterruptedException {
+        logger.info("Get code from email message. In case it's not sent yet, wait for 3 minutes.");
+        Thread.sleep(10000);
+        SharedTestData.setMessageText(MailMessageProvider.getCodeFromMessage());
     }
 }

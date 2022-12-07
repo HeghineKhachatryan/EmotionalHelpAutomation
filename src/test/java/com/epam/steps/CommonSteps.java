@@ -44,10 +44,13 @@ public class CommonSteps {
         String body = getBody(bodyName, param, param1, param2);
         if (endpoint.equals(Endpoints.RESET_PASSWORD.name())) {
             RequestUtils.post(Endpoints.RESET_PASSWORD.getEndpoint(), body, SharedTestData.getJWTToken());
-            PropertiesWriter.writeInPropertyFile("src/main/resources/userPassword.properties",
-                    "existedUserPassword", SharedTestData.getPassword());
         } else {
             RequestUtils.post(Endpoints.valueOf(endpoint).getEndpoint(), body).extract().asPrettyString();
+        }
+
+        if (SharedTestData.getPassword() != null) {
+            PropertiesWriter.writeInPropertyFile("src/main/resources/userPassword.properties",
+                    "existedUserPassword", SharedTestData.getPassword());
         }
         logger.info("Request to POST by endpoint {}", endpoint);
     }
@@ -73,6 +76,12 @@ public class CommonSteps {
                 String bodyForResettingPassword = BodyProvider.createBodyForResettingPassword(newPassword);
                 logger.info("Body for resetting password is -> {}", bodyForResettingPassword);
                 return bodyForResettingPassword;
+            case "resetForgottenPassword":
+                String passwordForResetting = UserDataProvider.generateStrongPassword();
+                SharedTestData.setPassword(passwordForResetting);
+                String bodyForForgottenReset = BodyProvider.createBodyForResettingForgottenPassword(passwordForResetting);
+                logger.info("Body for resetting forgotten password is -> {}", bodyForForgottenReset);
+                return bodyForForgottenReset;
             default:
                 throw new IllegalArgumentException("There is no such type of body, check it, please");
         }

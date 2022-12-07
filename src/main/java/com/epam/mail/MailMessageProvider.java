@@ -7,7 +7,7 @@ import javax.mail.Store;
 import java.util.Properties;
 
 
-public class SendMail {
+public class MailMessageProvider {
 
     public static String getLinkFromMessage() throws EmailMessageIsAbsentException {
         Properties properties = System.getProperties();
@@ -50,7 +50,7 @@ public class SendMail {
             inbox.open(Folder.READ_ONLY);
             Message[] message = inbox.getMessages();
             Message lastMessage = message[message.length-1];
-            code = lastMessage.getContent().toString();
+            code = lastMessage.getContent().toString().split("\r")[0];
             System.out.println(code);
             return code;
         } catch (Exception e) {

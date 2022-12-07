@@ -8,6 +8,8 @@ import io.restassured.specification.RequestSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 public final class RequestUtils {
     private final static Logger logger = LoggerFactory.getLogger(RequestUtils.class);
 
@@ -46,6 +48,18 @@ public final class RequestUtils {
         return response = RestAssured
                 .given()
                 .spec(getRequestSpecification(body))
+                .when()
+                .post(endpoint)
+                .then();
+    }
+
+    public static ValidatableResponse post(String endpoint, Map<String, String> queryParams) {
+        logger.info("Create new {} with query params", endpoint);
+        return response = RestAssured
+                .given()
+                .queryParam("email", queryParams.get("value"))
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
                 .when()
                 .post(endpoint)
                 .then();
