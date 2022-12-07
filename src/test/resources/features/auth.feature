@@ -7,12 +7,12 @@ Feature: Authorization feature will cover login/sign up/reset password functiona
     Given Setup Rest Assured
 
   Scenario: Sign up with correct credentials
-    When Request to POST a new user
-    Then Validate status code is 200
+    When Request to POST a new user with name, email and password
+    Then Validate status code is 201
     And Validate response body against JSON schema for auth/signUp
 
   Scenario Outline: Check validations of sign up functionality
-    When Request to POST a new user with <name>, <email> and <password>
+    When Request to POST invalid user with <name>, <email> and <password>
     Then Validate status code is <statusCode>
     And Validate response body against JSON schema for auth/signUpError
     And Validate error message contains <text>
