@@ -34,16 +34,15 @@ public class AuthSteps {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", UserDataProvider.getExistedEmail());
         jsonObject.put("password", UserDataProvider.getExistedPassword());
-        RequestUtils.get(Endpoints.LOGIN.getEndpoint(), jsonObject.toJSONString());
+        RequestUtils.post(Endpoints.LOGIN.getEndpoint(), jsonObject.toJSONString());
         logger.info("Login with existed email and password -> body - {}", jsonObject.toJSONString());
     }
 
     @And("Save access token value and type")
     public void saveAccessTokenValueAndType() {
         String token = ResponseUtils.getStringFromResponse("jwtAccess");
-        String type = ResponseUtils.getStringFromResponse("type");
-        logger.info("Save access token type ({}) and value ({}) from the response", type, token);
-        SharedTestData.setJWTToken(type + " " + token);
+        logger.info("Save access token ({}) from the response", token);
+        SharedTestData.setJWTToken(token);
     }
 
     @When("Login with incorrect credentials - {} and {}")
@@ -51,7 +50,7 @@ public class AuthSteps {
         logger.info("Login with incorrect credentials - username is '{}' and password is '{}'", username, password);
         bodyParameters.put("username", username);
         bodyParameters.put("password", password);
-        RequestUtils.get(Endpoints.LOGIN.getEndpoint(), BodyProvider.getBody("login", bodyParameters));
+        RequestUtils.post(Endpoints.LOGIN.getEndpoint(), BodyProvider.getBody("login", bodyParameters));
     }
 
     @And("Validate success message for resetting password")

@@ -55,7 +55,7 @@ public final class RequestUtils {
         logger.info("Create new {} with the following body -> {} and token {}", endpoint, body, token);
         return response = RestAssured
                 .given()
-                .headers("Authorization", token)
+                .headers("Authorization", "Bearer " + token)
                 .spec(getRequestSpecification(body))
                 .when()
                 .post(endpoint)

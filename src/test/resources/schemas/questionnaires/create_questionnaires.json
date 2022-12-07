@@ -70,7 +70,6 @@
   "required": [
     "id",
     "name",
-    "description",
-    "questionList"
+    "description"
   ]
 }

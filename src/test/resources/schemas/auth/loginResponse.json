@@ -4,9 +4,6 @@
     "jwtAccess": {
       "type": "string"
     },
-    "type": {
-      "type": "string"
-    },
     "jwtRefresh": {
       "type": "string"
     },
@@ -62,7 +59,6 @@
   },
   "required": [
     "jwtAccess",
-    "type",
     "jwtRefresh"
   ]
 }
