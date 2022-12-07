@@ -18,18 +18,14 @@ import java.util.Map;
 
 public class AuthSteps {
     private final Logger logger = LoggerFactory.getLogger(CommonSteps.class);
-    private final Map<String, Object> bodyParameters = new HashMap<>();
+    private Map<String, Object> bodyParameters = new HashMap<>();
 
     @When("Request to POST {} user with {}, {} and {}")
     public void requestToPOSTByEndpoint(String text, String name, String email, String password) {
         if (text.equals("a new")) {
-            bodyParameters.put("name", UserDataProvider.generateName());
-            bodyParameters.put("email", UserDataProvider.generateEmail());
-            bodyParameters.put("password", UserDataProvider.generateStrongPassword());
+            bodyParameters = BodyProvider.createBodyForNewUser();
         } else if (text.equals("invalid")) {
-            bodyParameters.put("name", name);
-            bodyParameters.put("email", email);
-            bodyParameters.put("password", password);
+            bodyParameters = BodyProvider.createInvalidUserBody(name, email, password);
         }
         String body = BodyProvider.getBody("signup", bodyParameters);
         RequestUtils.post(Endpoints.SIGN_UP.getEndpoint(), body);
@@ -50,7 +46,6 @@ public class AuthSteps {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", UserDataProvider.getExistedEmail());
         jsonObject.put("password", UserDataProvider.getExistedPassword());
-        SharedTestData.setCurrentPassword(UserDataProvider.getExistedPassword());
         RequestUtils.get(Endpoints.LOGIN.getEndpoint(), jsonObject.toJSONString());
         logger.info("Login with existed email and password -> body - {}", jsonObject.toJSONString());
     }
@@ -60,8 +55,7 @@ public class AuthSteps {
         String token = ResponseUtils.getStringFromResponse("jwtAccess");
         String type = ResponseUtils.getStringFromResponse("type");
         logger.info("Save access token type ({}) and value ({}) from the response", type, token);
-        SharedTestData.setJWTToken(token);
-        SharedTestData.setTokenType(type);
+        SharedTestData.setJWTToken(type + " " + token);
     }
 
     @When("Login with incorrect credentials - {} and {}")
@@ -76,14 +70,11 @@ public class AuthSteps {
     public void requestToResetPasswordByProvidedToken() {
         logger.info("Request to reset password by provided token and body");
         String newPassword = UserDataProvider.generateStrongPassword();
-        bodyParameters.put("currentPassword", UserDataProvider.getExistedPassword());
-        bodyParameters.put("newPassword", newPassword);
-        bodyParameters.put("conformNewPassword", newPassword);
+        bodyParameters = BodyProvider.createBodyForResettingPassword(newPassword);
         PropertiesWriter.writeInPropertyFile("src/main/resources/userPassword.properties",
                 "existedUserPassword", newPassword);
         RequestUtils.post(Endpoints.RESET_PASSWORD.getEndpoint(),
-                BodyProvider.getBody("resetPassword", bodyParameters),
-                SharedTestData.getTokenType() + " " + SharedTestData.getJWTToken());
+                BodyProvider.getBody("resetPassword", bodyParameters), SharedTestData.getJWTToken());
     }
 
     @And("Validate success message for resetting password")
