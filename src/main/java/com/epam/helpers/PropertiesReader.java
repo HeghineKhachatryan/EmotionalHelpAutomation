@@ -2,6 +2,7 @@ package com.epam.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -27,5 +28,9 @@ public class PropertiesReader {
 
     public String getPropertyByKey(String key) {
         return properties.getProperty(key);
+    }
+
+    public void updateValueOfProperty(String key, String value) {
+        properties.put(key, value);
     }
 }

@@ -9,5 +9,4 @@ public class ConfigPropertiesProviders {
     public String getBASE_URI() {
         return properties.getPropertyByKey("BASE_URI");
     }
-
 }
