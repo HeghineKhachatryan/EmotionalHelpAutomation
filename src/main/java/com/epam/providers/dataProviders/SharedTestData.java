@@ -1,33 +1,19 @@
 package com.epam.providers.dataProviders;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public final class SharedTestData {
 
     private SharedTestData() {}
+
+    @Getter
+    @Setter
     private static String JWTToken;
+    @Getter
+    @Setter
     private static String password;
+    @Getter
+    @Setter
     private static String messageText;
-
-    public static String getJWTToken() {
-        return JWTToken;
-    }
-
-    public static void setJWTToken(String JWTToken) {
-        SharedTestData.JWTToken = JWTToken;
-    }
-
-    public static String getPassword() {
-        return password;
-    }
-
-    public static void setPassword(String password) {
-        SharedTestData.password = password;
-    }
-
-    public static String getMessageText() {
-        return messageText;
-    }
-
-    public static void setMessageText(String messageText) {
-        SharedTestData.messageText = messageText;
-    }
 }

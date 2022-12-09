@@ -17,11 +17,19 @@ public class BodyProvider {
         return templateManager.processTemplate(ftlFileName, params);
     }
 
-    public static String createBodyForNewUser() {
+    public static String createBodyForUserWithCorrectCredentials() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", UserDataProvider.generateName());
         jsonObject.put("email", UserDataProvider.generateEmail());
         jsonObject.put("password", UserDataProvider.generateStrongPassword());
+        return jsonObject.toJSONString();
+    }
+
+    public static String createBodyForNewUser() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", UserDataProvider.generateName());
+        jsonObject.put("email", UserDataProvider.getExistedEmail());
+        jsonObject.put("password", UserDataProvider.getExistedPassword());
         return jsonObject.toJSONString();
     }
 

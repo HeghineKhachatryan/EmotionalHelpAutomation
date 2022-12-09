@@ -7,15 +7,12 @@ public enum Endpoints {
     RESET_PASSWORD("authentication/reset-password"),
     RESET_FORGOTTEN_PASSWORD("authentication/reset-forgotten-password"),
     SEND_MAIL("authentication/send-verification-code-to-mail"),
-    QUESTIONNAIRES("questionnaires");
+    QUESTIONNAIRES("questionnaires"),
+    CONFIRM_EMAIL("signup/confirm-email/");
 
-    private final String text;
+    public final String url;
 
     Endpoints(String endpoint) {
-        this.text = endpoint;
-    }
-
-    public String getEndpoint() {
-        return text;
+        this.url = endpoint;
     }
 }

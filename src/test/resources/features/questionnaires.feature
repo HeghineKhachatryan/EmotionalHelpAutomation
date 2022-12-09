@@ -18,6 +18,8 @@ Feature: This feature will cover questionnaires and questionnaires/{id}/question
       | questionnaires/\%\%/questions   | questionnaires/questionsError            | 400        |
 
   Scenario: Create new questionnaire
-    When Request to POST body parameters for questionnaires by endpoint QUESTIONNAIRES
-    Then Validate status code is 200
+    When Request to POST by endpoint
+      | bodyName | questionnaires |
+      | endpoint | QUESTIONNAIRES |
+    Then Validate status code is 201
     And Validate response body against JSON schema for questionnaires/create_questionnaires
