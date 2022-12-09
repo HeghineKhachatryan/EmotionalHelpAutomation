@@ -40,20 +40,10 @@ public final class ResponseUtils {
     }
 
     public static void validateResponseAgainstJSONSchema(String filePath) {
-        logger.info("Version of JSON Schema Validator is 'DRAFTV4', path of the schema is {}", filePath);
-        JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory
-                .newBuilder()
-                .setValidationConfiguration(
-                        ValidationConfiguration
-                                .newBuilder()
-                                .setDefaultVersion(SchemaVersion.DRAFTV4)
-                                .freeze()
-                )
-                .freeze();
+        logger.info("Assert that response body matches schema in the classpath {}", filePath);
         getResponse()
                 .assertThat()
                 .body(JsonSchemaValidator
-                        .matchesJsonSchemaInClasspath(filePath)
-                        .using(jsonSchemaFactory));
+                        .matchesJsonSchemaInClasspath(filePath));
     }
 }

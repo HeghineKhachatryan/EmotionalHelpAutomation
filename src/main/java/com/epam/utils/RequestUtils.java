@@ -57,9 +57,9 @@ public final class RequestUtils {
         logger.info("Create new {} with query params", endpoint);
         return response = RestAssured
                 .given()
-                .queryParam("email", queryParams.get("value"))
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
+                .queryParams(queryParams)
                 .when()
                 .post(endpoint)
                 .then();

@@ -25,7 +25,7 @@ public class MailMessageProvider {
             inbox.open(Folder.READ_ONLY);
             Message[] message = inbox.getMessages();
             Message lastMessage = message[message.length-1];
-            link = lastMessage.getContent().toString().split("\n")[1];
+            link = lastMessage.getContent().toString().split("confirm/")[1];
             System.out.println(link);
             return link;
         } catch (Exception e) {
