@@ -44,7 +44,7 @@ public class BodyProvider {
     public static String createBodyForResettingPassword(String newPassword) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("currentPassword", UserDataProvider.getExistedPassword());
-        jsonObject.put("newPassword",newPassword);
+        jsonObject.put("newPassword", newPassword);
         jsonObject.put("conformNewPassword", newPassword);
         return jsonObject.toJSONString();
     }
@@ -52,7 +52,7 @@ public class BodyProvider {
     public static String createBodyForResettingForgottenPassword(String newPassword) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", SharedTestData.getMessageText());
-        jsonObject.put("password",newPassword);
+        jsonObject.put("password", newPassword);
         jsonObject.put("confirmPassword", newPassword);
         return jsonObject.toJSONString();
     }
@@ -64,4 +64,19 @@ public class BodyProvider {
         return jsonObject.toJSONString();
     }
 
+    public static String createBodyForSpecialists() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", UserDataProvider.generateName());
+        jsonObject.put("info", UserDataProvider.generateName());
+        jsonObject.put("image", UserDataProvider.generateName());
+        return jsonObject.toJSONString();
+    }
+
+    public static String createBodyForArticles() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("title", UserDataProvider.generateName());
+        jsonObject.put("description", "description: " + UserDataProvider.generateName());
+        jsonObject.put("fullDescription", "fill description: " + UserDataProvider.generateName());
+        return jsonObject.toJSONString();
+    }
 }

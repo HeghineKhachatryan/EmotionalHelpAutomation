@@ -55,13 +55,13 @@ Feature: Authorization feature will cover login/sign up/reset password functiona
     And Validate error message contains <text>
 
     Examples:
-      | username              | password        | statusCode | text              |
-      | Heghine9696@gmail.com | WrongPa$sword2! | 401        | Bad credentials   |
-      | gmail.com             | My3rdPa$word    | 401        | Bad credentials   |
-      | non-existed username  | wrong password  | 409        | Password must     |
-      | username              |                 | 409        | Password must     |
-      |                       | PaS$word2       | 409        | must not be blank |
-      |                       |                 | 409        | must not be blank |
+      | username                        | password        | statusCode | text              |
+      | TestAutomationArmenia@gmail.com | WrongPa$sword2! | 401        | Bad credentials   |
+      | gmail.com                       | My3rdPa$word    | 401        | Bad credentials   |
+      | non-existed username            | wrong password  | 409        | Password must     |
+      | username                        |                 | 409        | Password must     |
+      |                                 | PaS$word2       | 409        | must not be blank |
+      |                                 |                 | 409        | must not be blank |
 
   Scenario: Reset password with token
     When Login with existed email and password

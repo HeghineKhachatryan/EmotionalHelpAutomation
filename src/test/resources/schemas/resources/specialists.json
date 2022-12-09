@@ -1,0 +1,34 @@
+{
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "info": {
+          "type":  [
+            "null",
+            "string"
+          ]
+        },
+        "image": {
+          "type":  [
+            "null",
+            "string"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "info",
+        "image"
+      ]
+    }
+  ]
+}

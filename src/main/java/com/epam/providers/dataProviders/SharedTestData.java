@@ -16,4 +16,7 @@ public final class SharedTestData {
     @Getter
     @Setter
     private static String messageText;
+    @Getter
+    @Setter
+    private static int userID;
 }

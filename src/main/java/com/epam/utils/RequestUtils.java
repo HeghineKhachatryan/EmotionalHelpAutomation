@@ -1,5 +1,6 @@
 package com.epam.utils;
 
+import com.epam.providers.dataProviders.SharedTestData;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -33,6 +34,16 @@ public final class RequestUtils {
                 .then();
     }
 
+    public static ValidatableResponse get(String endpoint, String token) {
+        logger.info("Get response by requesting {}", endpoint);
+        return response = RestAssured
+                .given()
+                .headers("Authorization", "Bearer " + token)
+                .when()
+                .get(endpoint)
+                .then();
+    }
+
     public static ValidatableResponse get(String endpoint, Object body) {
         logger.info("Get response by requesting all {}", endpoint);
         return response = RestAssured
@@ -50,6 +61,17 @@ public final class RequestUtils {
                 .spec(getRequestSpecification(body))
                 .when()
                 .post(endpoint)
+                .then();
+    }
+
+    public static ValidatableResponse patch(String endpoint, Object body, String token) {
+        logger.info("Update {} with body {} and provided token {}", endpoint, body, token);
+        return response = RestAssured
+                .given()
+                .headers("Authorization", "Bearer " + token)
+                .spec(getRequestSpecification(body))
+                .when()
+                .patch(endpoint)
                 .then();
     }
 

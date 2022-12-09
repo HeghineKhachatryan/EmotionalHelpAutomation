@@ -27,8 +27,9 @@ public final class ResponseUtils {
         logger.info("Get ID from response");
         return getResponse()
                 .extract()
+                .body()
                 .jsonPath()
-                .getInt(path);
+                .getJsonObject(path);
     }
 
     public static String getStringFromResponse(String path) {
