@@ -37,11 +37,11 @@ Feature: Authorization feature will cover login/sign up/reset password functiona
     And Validate error message contains <text>
 
     Examples:
-      | bodyName    | endpoint | name | password   | email                 | text                                      | statusCode |
-      | invalidUser | SIGN_UP  | 1    | Password!  | email@gmail.com       | size must be between 2 and 50             | 404        |
-      | invalidUser | SIGN_UP  | name | Password2! | heghine9696@gmail.com | the provided email address already exists | 417        |
-      | invalidUser | SIGN_UP  | ---- | password   | emailgmail.com        | must be a well-formed email address       | 404        |
-      | invalidUser | SIGN_UP  | ---- | "       "  | emailgmail.com        | Password must                             | 404        |
+      | bodyName    | endpoint | name | password   | email                           | text                                      | statusCode |
+      | invalidUser | SIGN_UP  | 1    | Password!  | email@gmail.com                 | size must be between 2 and 50             | 404        |
+      | invalidUser | SIGN_UP  | name | Password2! | testAutomationArmenia@gmail.com | the provided email address already exists | 417        |
+      | invalidUser | SIGN_UP  | ---- | password   | emailgmail.com                  | must be a well-formed email address       | 404        |
+      | invalidUser | SIGN_UP  | ---- | "       "  | emailgmail.com                  | Password must                             | 404        |
 
   Scenario: Login with correct credentials
     When Login with existed email and password
