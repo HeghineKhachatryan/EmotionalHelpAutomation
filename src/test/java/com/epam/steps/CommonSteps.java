@@ -16,12 +16,15 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class CommonSteps {
     private static final ConfigPropertiesProviders propertyProvider = new ConfigPropertiesProviders();
+    private final Map<String, Object> bodyParameters = new HashMap<>();
 
     @Given("Setup Rest Assured")
     public void setupRestAssured() {
@@ -46,6 +49,41 @@ public class CommonSteps {
                 endpoint, ResponseUtils.getResponse().extract().body().asPrettyString());
     }
 
+    @Then("Request to GET by token, id and endpoint {}")
+    public void requestToGETByTokenAndEndpoint(String endpoint) {
+        RequestUtils.get(endpoint.replaceAll("\\{id}", SharedTestData.getUserID() + ""), SharedTestData.getJWTToken());
+        log.info("Request to get by endpoint {}. Response body is {}",
+                endpoint, ResponseUtils.getResponse().extract().body().asPrettyString());
+    }
+
+
+    @And("Save ID of the user")
+    public void saveIDOfTheUser() {
+        SharedTestData.setUserID(ResponseUtils.getIDFromResponse("userResponseDTO.id"));
+    }
+
+    @When("Request to PATCH by endpoint {}")
+    public void requestToPATCHByEndpoint(String endpoint) {
+        bodyParameters.put("name", "my new name is " + UserDataProvider.generateName());
+        bodyParameters.put("gender", "Female");
+        bodyParameters.put("country", "my country is Armenia");
+        bodyParameters.put("role", "my role is Admin");
+        String url = Endpoints.valueOf(endpoint).url.replaceAll("\\{id}", SharedTestData.getUserID() + "");
+        RequestUtils.patch(url, BodyProvider.getBody("updateUser", bodyParameters),
+                SharedTestData.getJWTToken());
+        log.info("Request to patch with endpoint {}, Bearer {} token and body", url, SharedTestData.getJWTToken());
+    }
+
+    @And("Validate required field value has been changed")
+    public void validateRequiredFieldValueHasBeenChanged() {
+        log.info("Validate required field value has been changed -> name, gender, country and role");
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(ResponseUtils.getStringFromResponse("name")).isEqualTo(bodyParameters.get("name"));
+        softAssertions.assertThat(ResponseUtils.getStringFromResponse("gender")).isEqualTo(bodyParameters.get("gender"));
+        softAssertions.assertThat(ResponseUtils.getStringFromResponse("country")).isEqualTo(bodyParameters.get("country"));
+        softAssertions.assertThat(ResponseUtils.getStringFromResponse("role")).isEqualTo(bodyParameters.get("role"));
+        softAssertions.assertAll();
+    }
     @Then("Validate status code is {}")
     public void statusCodeShouldBe(int expectedStatusCode) {
         int actualStatusCode = ResponseUtils.getResponse().extract().statusCode();
@@ -107,6 +145,15 @@ public class CommonSteps {
                 String bodyForForgottenReset = BodyProvider.createBodyForResettingForgottenPassword(passwordForResetting);
                 log.info("Body for resetting forgotten password is -> {}", bodyForForgottenReset);
                 return bodyForForgottenReset;
+            case "specialists":
+                String specialists = BodyProvider.createBodyForSpecialists();
+                log.info("Body for specialists -> {}", specialists);
+                return specialists;
+            case "projects":
+            case "articles":
+                String articles = BodyProvider.createBodyForArticles();
+                log.info("Body for {} -> {}", bodyName, articles);
+                return articles;
             default:
                 throw new IllegalArgumentException("There is no such type of body, check it, please");
         }

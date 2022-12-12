@@ -1,0 +1,30 @@
+{
+  "type": "array",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "fullDescription": {
+      "type": "string"
+    },
+    "creationDate": {
+      "type": [
+        "null",
+        "object",
+        "string"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "description",
+    "fullDescription"
+  ]
+}
