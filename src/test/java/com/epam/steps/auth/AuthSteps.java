@@ -76,7 +76,7 @@ public class AuthSteps {
     @And("Get {} from email message")
     public void getCodeFromEmailMessage(String text) throws InterruptedException {
         log.info("Get code from email message. In case it's not sent yet, wait for 3 minutes.");
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         if (text.equals("code")) {
             SharedTestData.setMessageText(MailMessageProvider.getCodeFromMessage());
         } else if (text.equals("link")) {

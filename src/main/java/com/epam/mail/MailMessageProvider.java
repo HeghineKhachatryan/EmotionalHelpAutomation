@@ -10,11 +10,14 @@ import java.util.Properties;
 public class MailMessageProvider {
 
     public static String getLinkFromMessage() throws EmailMessageIsAbsentException {
+
         Properties properties = System.getProperties();
 
         properties.put("mail.pop3.host", "pop.gmail.com");
         properties.put("mail.pop3.port", "995");
         properties.put("mail.pop3.starttls.enable", "true");
+        properties.put("mail.pop3.ssl.enable", "false");
+        properties.put("mail.pop3.starttls.required", "true");
 
         Session session = Session.getInstance(properties);
         String link = "";
