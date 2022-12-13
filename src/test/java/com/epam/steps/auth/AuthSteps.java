@@ -1,6 +1,5 @@
 package com.epam.steps.auth;
 
-import com.epam.helpers.PropertiesWriter;
 import com.epam.mail.MailMessageProvider;
 import com.epam.providers.bodyProviders.BodyProvider;
 import com.epam.providers.dataProviders.Endpoints;

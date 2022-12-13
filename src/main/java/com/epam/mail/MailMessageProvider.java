@@ -18,6 +18,7 @@ public class MailMessageProvider {
         properties.put("mail.pop3.starttls.enable", "true");
         properties.put("mail.pop3.ssl.enable", "false");
         properties.put("mail.pop3.starttls.required", "true");
+        System.setProperty("mail.pop3s.ssl.protocols", "TLSv1.2");
 
         Session session = Session.getInstance(properties);
         String link = "";
